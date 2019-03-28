@@ -1,3 +1,8 @@
+"""
+Author:         Sam Badger
+Date Created:   March 27, 2019
+Description:    Simple indicator mechanism with a red and green LED
+"""
 from gpiozero import LED
 
 class IndicatorLights():

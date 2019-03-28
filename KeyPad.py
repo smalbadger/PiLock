@@ -1,3 +1,9 @@
+"""
+Author:         Sam Badger
+Date Created:   March 27, 2019
+Description:    A simple keypad made with 5 buttons - 4 numbers and submit
+"""
+
 from gpiozero import Button
 from events import Events
 
@@ -19,6 +25,9 @@ class KeyPad():
         self.btn4.when_pressed = self.press4
         self.btn5.when_pressed = self.submit
 
+    #############################################
+    #       BUTTON PRESS EVENT HANDLERS         #
+    #############################################
     def press1(self):
         self.combo.append(1)
         self.events.keyPressed()
@@ -41,6 +50,9 @@ class KeyPad():
 
         self.events.guessSubmitted()
 
+    #############################################
+    #               OTHER GOOD STUFF            #
+    #############################################
     def isGuessReady(self):
         if len(self.combo) >= 4:
             return True
