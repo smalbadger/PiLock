@@ -1,14 +1,12 @@
-from PySide2.QtCore import Signal, QObject
 from gpiozero import Button
+from events import Events
 
-class KeyPad(QObject):
-    keyPressed = Signal()
-    guessSubmitted = Signal()
+class KeyPad():
 
     def __init__(self, btn1Pin, btn2Pin, btn3Pin, btn4Pin, submitPin):
-        self.state = WAITING
+        self.events = Events(('keyPressed', 'guessSubmitted'))
+        
         self.combo = []
-        self.guess = []
         self.btn1 = Button(btn1Pin)
         self.btn2 = Button(btn2Pin)
         self.btn3 = Button(btn3Pin)
@@ -19,39 +17,40 @@ class KeyPad(QObject):
         self.btn2.when_pressed = self.press2
         self.btn3.when_pressed = self.press3
         self.btn4.when_pressed = self.press4
-        self.btn5.when_pressed = submit
+        self.btn5.when_pressed = self.submit
 
     def press1(self):
         self.combo.append(1)
-        keyPressed.emit()
+        self.events.keyPressed()
 
     def press2(self):
         self.combo.append(2)
-        keyPressed.emit()
+        self.events.keyPressed()
 
     def press3(self):
         self.combo.append(3)
-        keyPressed.emit()
+        self.events.keyPressed()
 
     def press4(self):
         self.combo.append(4)
-        keyPressed.emit()
+        self.events.keyPressed()
 
     def submit(self):
         if len(self.combo) < 4:
             return
 
-        self.guessSubmitted.emit()
+        self.events.guessSubmitted()
 
     def isGuessReady(self):
         if len(self.combo) >= 4:
             return True
         return False
+    
 
     def getGuess(self):
         if len(self.combo) > 4:
             return self.combo[-4:]
-        else
+        else:
             return self.combo[:]
 
     def reset(self):
